@@ -1,22 +1,26 @@
-public class SymbolTable<Key, Value> {
+public class SymbolTable<Key extends Comparable<Key>, Value> {
     Node root;
 
-    Void put(Key k, Value v) {
+    public void put(Key k, Value v) {
         root = put(root, k, v);
     }
 
-    Node put(Node x, Key k, Value v) {
-        if (x == null) {
-            return new Node<Key, Value>(k, v);
+    private Node put(Node n, Key k, Value v) {
+        if(n == null) {
+            return new Node(k, v);
         }
-        int cmp = k.compareTo(x.key);
-        if (cmp > 0) {
-            x.right = put(x.right, k, v);
-        }
+
+        int cmp = k.compareTo(n.key);
         if (cmp < 0) {
-            x.left = put(x.left, k, v);
+            n.size++;
+            n.left = put(n.left, k, v);
         }
-        return x;
+        if (cmp > 0) {
+            n.size++;
+            n.right = put(n.right, k, v);
+        }
+        n.value = v;
+        return n;
     }
 
     //Min = all the way to the left
@@ -49,17 +53,18 @@ public class SymbolTable<Key, Value> {
         return select(n.right, k-s-1);
         
     }
-}
 
-class Node<Key, Value> {
-    Node left = null;
-    Node right = null;
-    Key key;
-    Value value;
-    int size = 1;
-
-    public Node(Key k, Value v) {
-        this.key = k;
-        this.value = v;
+    class Node{
+        Node left = null;
+        Node right = null;
+        Key key;
+        Value value;
+        int size = 1;
+    
+        public Node(Key k, Value v) {
+            this.key = k;
+            this.value = v;
+        }
     }
 }
+
