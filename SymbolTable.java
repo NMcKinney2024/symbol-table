@@ -1,6 +1,7 @@
 public class SymbolTable<Key extends Comparable<Key>, Value> {
     Node root;
 
+    //Add a new node (key and value) to the Symbol Table.
     public void put(Key k, Value v) {
         root = put(root, k, v);
     }
