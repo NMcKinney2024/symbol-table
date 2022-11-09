@@ -19,16 +19,46 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
         if (cmp < 0) {
             n.size++;
             n.left = put(n.left, k, v);
-        }
-        if (cmp > 0) {
+        }else if (cmp > 0) {
             n.size++;
             n.right = put(n.right, k, v);
+        } else{
+            n.value = v;
+            return n;
         }
-        n.value = v;
-        return n;
     }
 
     //Delete
+    //Replace deleting with the smallest thing in it's right subtree (min of the right subtree)
+    //Delmin of the right subtree
+
+    //Remove key k from the symbol table.    
+    public void delete(Key k) {
+        root = delete(root, k);
+    }
+
+    //Returns the root of the tree rooted at node with key k deleted.
+    private Node delete(Node n, Key k) {
+        if (n == null) {
+            return null;
+        }
+        int cmp = k.compareTo(n.key);
+        if (cmp < 0) {
+            n.left = delete(n.left, k);
+        } else if (cmp > 0) {
+            n.right = delete(n.right, k);
+        } else {
+            if (n.right == null) {
+                return n.right;
+            }
+            if (n.left == null) {
+                return n.left;
+            }
+            Node t = n;
+            n = min(t.right);
+            n.right = delMin(t.right);
+        }
+    }
 
     //Return the value at key k.
     public Value get(Key k) {
@@ -78,7 +108,11 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
         return max(n.right);
     }
 
-    public delMin() {
+    public void delMin() {
+        root = 
+    }
+
+    private Node delMin(Node n) {
 
     }
 
@@ -86,9 +120,9 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
 
     }
     
-    //Return the number of items in the subtree rooted at key k.
-    public int size(Key k) {
-        return get(root, k).size;
+    //Return the number of items in the table.
+    public int size() {
+        return get(root, root.key).size;
     }
 
     //Returns the key with k things less than it.
@@ -100,7 +134,7 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
         if (n == null) {
             return null;
         }
-        int s = size(n.left.key);
+        int s = n.left.size;
         if (s == k) {
             return n;
         }
