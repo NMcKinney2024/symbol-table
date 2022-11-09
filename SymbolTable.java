@@ -111,16 +111,19 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
         
     }
 
-    class Node{
-        Node left = null;
-        Node right = null;
+    private class Node{
+        Node left;
+        Node right;
         Key key;
         Value value;
-        int size = 1;
+        int size;
     
         public Node(Key k, Value v) {
             this.key = k;
             this.value = v;
+            left = null;
+            right = null;
+            size = 1;
         }
     }
 }
