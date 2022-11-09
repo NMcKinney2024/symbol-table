@@ -1,6 +1,15 @@
 public class SymbolTable<Key extends Comparable<Key>, Value> {
     Node root;
 
+    //Get
+    //Delete ~
+    //Select
+    //Rank ~
+    //Floor
+    //Ceiling
+    //Size
+    //Contains
+
     //Add a new node (key and value) to the Symbol Table.
     public void put(Key k, Value v) {
         root = put(root, k, v);
@@ -24,8 +33,60 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
         return n;
     }
 
-    //Min = all the way to the left
-    //Max = all the way to the right
+    //Return the value at key k.
+    public Value get(Key k) {
+        return get(root, k).value;
+    }
+
+    private Node get(Node n, Key k) {
+        if (n == null) {
+            return null;
+        }
+        int cmp = k.compareTo(n.key);
+        if (cmp > 0) {
+            return get(n.right, k);
+        }
+        if (cmp < 0) {
+            return get(n.left, k);
+        }
+        return n;
+    }
+
+    //Find the smallest key.
+    public Key min() {
+        return min(root).key;
+    }
+    
+    private Node min(Node n) {
+        if (n.left == null) {
+            return n;
+        }
+        return min(n.left);
+    }
+
+    //Find the largest key.
+    public Key max() {
+        return max(root).key;
+    }
+
+    private Node max(Node n) {
+        if (n.right == null) {
+            return n;
+        }
+        return max(n.right);
+    }
+
+    public delMin() {
+
+    }
+
+    public delMax() {
+
+    }
+    
+
+
+
 
     public int size() {
         return size(root);
