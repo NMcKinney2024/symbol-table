@@ -1,14 +1,9 @@
 public class SymbolTable<Key extends Comparable<Key>, Value> {
     Node root;
 
-    //Get
-    //Delete ~
-    //Select
     //Rank ~
     //Floor
     //Ceiling
-    //Size
-    //Contains
 
     //Add a new node (key and value) to the Symbol Table.
     public void put(Key k, Value v) {
@@ -33,6 +28,8 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
         return n;
     }
 
+    //Delete
+
     //Return the value at key k.
     public Value get(Key k) {
         return get(root, k).value;
@@ -50,6 +47,11 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
             return get(n.left, k);
         }
         return n;
+    }
+
+    //Return if the table contains key k.
+    public boolean contains(Key k) {
+        return !(get(k) == null);
     }
 
     //Find the smallest key.
@@ -84,16 +86,9 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
 
     }
     
-
-
-
-
-    public int size() {
-        return size(root);
-    }
-
-    private int size(Node n) {
-
+    //Return the number of items in the subtree rooted at key k.
+    public int size(Key k) {
+        return get(root, k).size;
     }
 
     //Returns the key with k things less than it.
@@ -105,7 +100,7 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
         if (n == null) {
             return null;
         }
-        int s = size(n.left);
+        int s = size(n.left.key);
         if (s == k) {
             return n;
         }
