@@ -24,8 +24,8 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
             n.right = put(n.right, k, v);
         } else{
             n.value = v;
-            return n;
         }
+        return n;
     }
 
     //Delete
