@@ -28,10 +28,6 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
         return n;
     }
 
-    //Delete
-    //Replace deleting with the smallest thing in it's right subtree (min of the right subtree)
-    //Delmin of the right subtree
-
     //Remove key k from the symbol table.    
     public void delete(Key k) {
         root = delete(root, k);
@@ -49,15 +45,18 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
             n.right = delete(n.right, k);
         } else {
             if (n.right == null) {
-                return n.right;
+                return n.left;
             }
             if (n.left == null) {
-                return n.left;
+                return n.right;
             }
             Node t = n;
             n = min(t.right);
             n.right = delMin(t.right);
+            n.left = t.left;
         }
+        n.size = size(n.left) + size(n.right) + 1;
+        return n;
     }
 
     //Return the value at key k.
@@ -108,21 +107,51 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
         return max(n.right);
     }
 
+    //Delete the minimum.
     public void delMin() {
-        root = 
+        root = delMin(root);
     }
 
     private Node delMin(Node n) {
-
+        if (n == null) {
+            return null;
+        }
+        if (n.left == null) {
+            return n.right;
+        }
+        n.left = delMin(n.left);
+        n.size = size(n.left) + size(n.right) + 1;
+        return n;
     }
 
-    public delMax() {
-
+    //Delete the maximum.
+    public void delMax() {
+        root = delMax(root);
+    }
+    
+    private Node delMax(Node n) {
+        if (n == null) {
+            return null;
+        }
+        if (n.right == null) {
+            return n.left;
+        }
+        n.right = delMax(n.right);
+        n.size = size(n.left) + size(n.right) + 1;
+        return n;
     }
     
     //Return the number of items in the table.
     public int size() {
-        return get(root, root.key).size;
+        return size(root);
+    }
+
+    //Get the size of the subtree rooted at node n.
+    private int size(Node n) {
+        if (n == null) {
+            return 0;
+        }
+        return n.size;
     }
 
     //Returns the key with k things less than it.
