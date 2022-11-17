@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 public class SymbolTable<Key extends Comparable<Key>, Value> {
     Node root;
 
@@ -172,6 +173,33 @@ public class SymbolTable<Key extends Comparable<Key>, Value> {
         }
         return select(n.right, k-s-1);
         
+    }
+
+    public Iterable<Key> keys() {
+        return keys(this.min(), this.max());
+    }
+
+    public Iterable<Key> keys(Key min, Key max) {
+        ArrayList<Key> a = new ArrayList<Key>();
+        keys(root, a, min, max);
+        return a;
+    }
+
+    private void keys(Node x, ArrayList<Key> a, Key min, Key max) {
+        if (x == null) {
+            return;
+        }
+        int cmpmin = min.compareTo(x.key);
+        int cmpmax = max.compareTo(x.key);
+        if (cmpmin < 0) {
+            keys(x.left, a, min, max);
+        }
+        if (cmpmin <= 0 && cmpmax >= 0) {
+            a.add(x.key);
+        }
+        if (cmpmax > 0) {
+            keys(x.right, a, min, max);
+        }
     }
 
     private class Node{
